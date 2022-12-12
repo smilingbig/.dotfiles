@@ -3,6 +3,9 @@ autoload -Uz promptinit
 promptinit
 prompt adam1
 
+# Aliases
+source ~/.zsh_aliases
+
 # Setting up default editor 
 export EDITOR="nvim"
 export GIT_EDITOR=$EDITOR
@@ -50,26 +53,31 @@ export HISTFILE=~/.zsh_history
 # I should look more into how this works.
 setopt cdablevars
 
+# Enable fg/bg tasks
+setopt monitor
+
+# Setup history search on keypresses
+# https://github.com/zsh-users/zsh-history-substring-search
+source $HOME/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
+bindkey "$terminfo[kcuu1]" history-substring-search-up
+bindkey "$terminfo[kcud1]" history-substring-search-down
+
 # Use modern completion system
 autoload -Uz compinit
 compinit
 
-# TODO
-# This was auto generated need to figure out how this is working.
-zstyle ':completion:*' auto-description 'specify: %d'
-zstyle ':completion:*' completer _expand _complete _correct _approximate
-zstyle ':completion:*' format 'Completing %d'
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*' menu select=2
-eval "$(dircolors -b)"
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*' list-colors ''
-zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
-zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
-zstyle ':completion:*' menu select=long
-zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
-zstyle ':completion:*' use-compctl false
-zstyle ':completion:*' verbose true
+# Case insensitive completion
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
-zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+# Functions
+# TODO
+# Move these out somewhere
+function find_replace {
+	local find=$1
+	local replace=$1
+
+	vim "+bufdo %s/${find}/${replace}/gc | up" '+q' -- $(rg $find -l) >2/dev/null
+}
+
+# Zsh syntax highlighting should be sourced at end of file
+source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

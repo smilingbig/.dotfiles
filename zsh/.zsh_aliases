@@ -1,0 +1,11 @@
+alias vim=nvim
+alias c=clear
+alias cat=bat
+alias ls="ls -alGh"
+alias rg="rg --hidden"
+# Force tmux to assume the terminal supports 256 colours.
+alias tmux="tmux -2"
+alias npm=pnpm
+alias x="exit -f"
+alias zshrc="$EDITOR ~/.zshrc"
+alias tmuxrc="$EDITOR ~/.tmux.conf"
