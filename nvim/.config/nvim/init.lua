@@ -52,7 +52,7 @@ require('packer').startup(function(use)
   use 'lewis6991/gitsigns.nvim'
   use 'shumphrey/fugitive-gitlab.vim'
 
-  use 'dracula/vim' -- Theme inspired by Atom
+  use 'dracula/vim' -- Theme
   use 'nvim-lualine/lualine.nvim' -- Fancier statusline
   use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
   use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
@@ -69,6 +69,9 @@ require('packer').startup(function(use)
 
   -- Vimwiki
   use { 'vimwiki/vimwiki' }
+
+  -- Tmux navigation because I'm lazy
+  -- use { 'christoomey/vim-tmux-navigator' }
 
   -- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
   local has_plugins, plugins = pcall(require, 'custom.plugins')
@@ -124,7 +127,7 @@ vim.o.breakindent = true
 
 -- Save undo history
 vim.o.undofile = true
-vim.opt.undodir = os.getenv('HOME') .. '/.vim/undodir'
+vim.o.undodir = os.getenv('HOME') .. '/.vim/undodir'
 
 -- Case insensitive searching UNLESS /C or capital in search
 vim.o.ignorecase = true
@@ -142,12 +145,18 @@ vim.wo.colorcolumn = '80'
 vim.wo.cursorline = true
 vim.wo.cursorcolumn = true
 
+vim.o.tabstop = 2
+vim.o.softtabstop = 2
+vim.o.shiftwidth = 2
+
 -- Set colorscheme
 vim.o.termguicolors = true
 vim.cmd [[colorscheme dracula]]
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
+
+vim.o.swapfile = false
 
 -- [[ Basic Keymaps ]]
 -- Set <space> as the leader key
@@ -161,8 +170,8 @@ vim.g.maplocalleader = ' '
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
 -- Remap for dealing with word wrap
-vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+-- vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+-- vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- Undotree 
 vim.keymap.set('n', '<leader>u', '<cmd>UndotreeToggle<cr>', { desc = 'Toggle [U]ndotree view for file history' })
@@ -244,21 +253,42 @@ require('telescope').setup {
 pcall(require('telescope').load_extension, 'fzf')
 
 -- See `:help telescope.builtin`
-vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
-vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
+-- nnoremap <Leader>f :lua require'telescope.builtin'.find_files()<cr>
+vim.keymap.set('n', '<leader>?', function()
+  require('telescope.builtin').oldfiles(require('telescope.themes').get_ivy {})
+end, { desc = '[?] Find recently opened files' })
+
+vim.keymap.set('n', '<leader><space>', function()
+  require('telescope.builtin').buffers(require('telescope.themes').get_ivy {})
+end, { desc = '[ ] Find existing buffers' })
+
 vim.keymap.set('n', '<leader>/', function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
-  require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+  require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_ivy {
     winblend = 10,
     previewer = false,
   })
 end, { desc = '[/] Fuzzily search in current buffer]' })
 
-vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
-vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
-vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
-vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
-vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
+vim.keymap.set('n', '<leader>sf', function()
+  require('telescope.builtin').find_files(require('telescope.themes').get_ivy {})
+end, { desc = '[S]earch [F]iles' })
+
+vim.keymap.set('n', '<leader>sh', function()
+  require('telescope.builtin').help_tags(require('telescope.themes').get_ivy {})
+end, { desc = '[S]earch [H]elp' })
+
+vim.keymap.set('n', '<leader>sw', function()
+  require('telescope.builtin').grep_string(require('telescope.themes').get_ivy {})
+end, { desc = '[S]earch current [W]ord' })
+
+vim.keymap.set('n', '<leader>sg', function()
+  require('telescope.builtin').live_grep(require('telescope.themes').get_ivy {})
+end, { desc = '[S]earch by [G]rep' })
+
+vim.keymap.set('n', '<leader>sd', function()
+  require('telescope.builtin').diagnostics(require('telescope.themes').get_ivy {})
+end, { desc = '[S]earch [D]iagnostics' })
 
 -- Movement remaps
 -- Stole these from ThePrimeagen
@@ -404,6 +434,7 @@ local servers = {
   -- gopls = {},
   -- pyright = {},
   -- rust_analyzer = {},
+  bashls = {},
   tsserver = {},
 
   sumneko_lua = {
