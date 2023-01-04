@@ -7,6 +7,9 @@ prompt pure
 export PURE_PROMPT_VICMD_SYMBOL="_"
 export PURE_PROMPT_SYMBOL="$"
 
+# Volta setup for path
+export VOLTA_HOME=$HOME/.volta
+export PATH="$VOLTA_HOME/bin:$PATH"
 # TODO
 # I need a way to deal with this on non macos distro
 # Source brew
@@ -15,6 +18,9 @@ export PATH="/opt/homebrew/bin:$PATH"
 # Setting up default editor 
 export EDITOR="nvim"
 export GIT_EDITOR=$EDITOR
+
+# Keys and things
+source ~/.zshpriv
 
 # Aliases
 source ~/.zsh_aliases
@@ -76,16 +82,6 @@ compinit
 
 # Case insensitive completion
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-
-# Functions
-# TODO
-# Move these out somewhere
-function find_replace {
-	local find=$1
-	local replace=$1
-
-	vim "+bufdo %s/${find}/${replace}/gc | up" '+q' -- $(rg $find -l) >2/dev/null
-}
 
 # Zplug
 # https://github.com/zplug/zplug

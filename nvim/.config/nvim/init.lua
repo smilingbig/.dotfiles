@@ -373,6 +373,11 @@ require('nvim-treesitter.configs').setup {
   },
 }
 
+-- Terraform / HCL autocmd's to switch terraform files to hcl
+vim.cmd([[silent! autocmd! filetypedetect BufRead,BufNewFile *.tf]])
+vim.cmd([[autocmd BufRead,BufNewFile *.hcl set filetype=hcl]])
+vim.cmd([[autocmd BufRead,BufNewFile *.tf set filetype=hcl]])
+
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
@@ -435,6 +440,7 @@ local servers = {
   -- pyright = {},
   -- rust_analyzer = {},
   bashls = {},
+  terraformls = {},
   tsserver = {},
 
   sumneko_lua = {

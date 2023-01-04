@@ -5,9 +5,20 @@ alias ls="ls -alGh"
 alias rg="rg --hidden"
 # Force tmux to assume the terminal supports 256 colours.
 alias tmux="tmux -2"
-alias npm=pnpm
 alias x="exit -f"
 alias zshrc="$EDITOR ~/.zshrc"
 alias tmuxrc="$EDITOR ~/.tmux.conf"
+alias vimrc="$EDITOR ~/.config/nvim/init.lua"
 alias DOTFILES_DIR="$HOME/dotfiles"
 alias grep="grep --color"
+alias zshalias="$EDITOR ~/.zsh_aliases"
+# TODO
+# I should write a script to check if in git repo and there is an .nvmrc or
+# .node-version file and then check if current version is my nstalled version
+# and then install via volta if it isn't
+# alias node_install="volta install "node@$(cat .nvmrc)""
+alias tf="terraform"
+alias wiki="nvim -c ':VimwikiIndex'"
+# Connect to my headphones and turn off bluetooth
+alias bt="blueutil -p TOGGLE"
+alias bc="blueutil -p 1 && blueutil --connect cc-98-8b-b8-22-60"

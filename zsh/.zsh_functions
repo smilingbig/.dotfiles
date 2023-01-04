@@ -1,0 +1,49 @@
+alias op="open_pipeline"
+alias omr="open_mr"
+alias oc="open_compare"
+
+# TODO
+# Need to tidy these up as a lib
+function open_pipeline {
+  local remoteUrl=$(git config --get remote.origin.url)
+  local repoPath=${${remoteUrl/git@gitlab.com:/""}/.git/""}
+  local currentBranch=$(git rev-parse --abbrev-ref HEAD)
+  local pipelineUrl="https://gitlab.com/${repoPath}/-/pipelines?page=1&scope=all&ref=${currentBranch}"
+
+  echo $pipelineUrl
+  open $pipelineUrl
+}
+
+function open_mr {
+  local remoteUrl=$(git config --get remote.origin.url)
+  local repoPath=${${remoteUrl/git@gitlab.com:/""}/.git/""}
+  local gitlabUser=$(curl "https://gitlab.com/api/v4/user?private_token=${GITLAB_READ_TOKEN}" | jq ".username" | tr -d '"')
+
+  local pipelineUrl="https://gitlab.com/${repoPath}/-/merge_requests?scope=all&state=opened&author_username=${gitlabUser}"
+
+  echo $pipelineUrl
+  open $pipelineUrl
+}
+
+function open_compare {
+  local remoteUrl=$(git config --get remote.origin.url)
+  local repoPath=${${remoteUrl/git@gitlab.com:/""}/.git/""}
+  local mainBranch=$(git_main_branch)
+  local currentBranch=$(git rev-parse --abbrev-ref HEAD)
+
+  local pipelineUrl="https://gitlab.com/${repoPath}/-/compare/${mainBranch}...${currentBranch}"
+
+  echo $pipelineUrl
+  open $pipelineUrl
+}
+
+function define {
+ dict -d gcide $1 | cat
+}
+
+function find_replace {
+	local find=$1
+	local replace=$1
+
+	vim "+bufdo %s/${find}/${replace}/gc | up" '+q' -- $(rg $find -l) >2/dev/null
+}
