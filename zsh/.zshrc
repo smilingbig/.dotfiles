@@ -17,6 +17,9 @@ export EDITOR="nvim"
 export GIT_EDITOR=$EDITOR
 
 # Aliases
+# https://github.com/ohmyzsh/ohmyzsh/issues/3356#issuecomment-94344463
+# If you get `command not found: compdef` error you need to regenerate
+# completions
 source $HOME/.zsh/ohmyzsh/plugins/git/git.plugin.zsh
 source ~/.zsh_aliases
 
