@@ -1,4 +1,5 @@
-# Set up the prompt
+# Using pure prompt
+# https://github.com/sindresorhus/pure
 fpath+=($HOME/.zsh/pure)
 autoload -Uz promptinit
 promptinit
@@ -16,6 +17,7 @@ export EDITOR="nvim"
 export GIT_EDITOR=$EDITOR
 
 # Aliases
+source $HOME/.zsh/ohmyzsh/plugins/git/git.plugin.zsh
 source ~/.zsh_aliases
 
 setopt autocd # Lazy cd
@@ -64,12 +66,6 @@ setopt cdablevars
 # Enable fg/bg tasks
 setopt monitor
 
-# Setup history search on keypresses
-# https://github.com/zsh-users/zsh-history-substring-search
-source $HOME/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
-bindkey "$terminfo[kcuu1]" history-substring-search-up
-bindkey "$terminfo[kcud1]" history-substring-search-down
-
 # Use modern completion system
 autoload -Uz compinit
 compinit
@@ -88,4 +84,15 @@ function find_replace {
 }
 
 # Zsh syntax highlighting should be sourced at end of file
-# source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=$HOME/.zsh/zsh-syntax-highlighting/highlighters
+source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# Setup history search on keypresses
+# https://github.com/zsh-users/zsh-history-substring-search
+source $HOME/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
+# TODO
+# This is working a bit differently so need to see if this is nice or not
+# bindkey -M vicmd '^[[A' history-substring-search-up
+# bindkey -M vicmd '^[[B' history-substring-search-down
+bindkey "$terminfo[kcuu1]" history-substring-search-up
+bindkey "$terminfo[kcud1]" history-substring-search-down
