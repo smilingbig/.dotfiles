@@ -3,6 +3,8 @@ fpath+=($HOME/.zsh/pure)
 autoload -Uz promptinit
 promptinit
 prompt pure
+export PURE_PROMPT_VICMD_SYMBOL="_"
+export PURE_PROMPT_SYMBOL="$"
 
 # TODO
 # I need a way to deal with this on non macos distro
