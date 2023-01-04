@@ -1,14 +1,20 @@
 # Set up the prompt
+fpath+=($HOME/.zsh/pure)
 autoload -Uz promptinit
 promptinit
-prompt adam1
+prompt pure
 
-# Aliases
-source ~/.zsh_aliases
+# TODO
+# I need a way to deal with this on non macos distro
+# Source brew
+export PATH="/opt/homebrew/bin:$PATH"
 
 # Setting up default editor 
 export EDITOR="nvim"
 export GIT_EDITOR=$EDITOR
+
+# Aliases
+source ~/.zsh_aliases
 
 setopt autocd # Lazy cd
 
@@ -80,4 +86,4 @@ function find_replace {
 }
 
 # Zsh syntax highlighting should be sourced at end of file
-source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
