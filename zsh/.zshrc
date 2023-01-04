@@ -17,11 +17,12 @@ export EDITOR="nvim"
 export GIT_EDITOR=$EDITOR
 
 # Aliases
+source ~/.zsh_aliases
+
 # https://github.com/ohmyzsh/ohmyzsh/issues/3356#issuecomment-94344463
 # If you get `command not found: compdef` error you need to regenerate
 # completions
-source $HOME/.zsh/ohmyzsh/plugins/git/git.plugin.zsh
-source ~/.zsh_aliases
+# source $HOME/.zsh/ohmyzsh/plugins/git/git.plugin.zsh
 
 setopt autocd # Lazy cd
 
@@ -86,16 +87,42 @@ function find_replace {
 	vim "+bufdo %s/${find}/${replace}/gc | up" '+q' -- $(rg $find -l) >2/dev/null
 }
 
+# Zplug
+# https://github.com/zplug/zplug
+# TODO
+# Probably needs to be updated for debian
+export ZPLUG_HOME=/opt/homebrew/opt/zplug
+source $ZPLUG_HOME/init.zsh
+
+zplug "plugins/git",   from:oh-my-zsh
+zplug "zsh-users/zsh-history-substring-search"
+zplug "zsh-users/zsh-syntax-highlighting", defer:2, as:command, use:'bin/n'
+
+# Install plugins if there are plugins that have not been installed
+if ! zplug check --verbose; then
+	printf "Install? [y/N]: "
+	if read -q; then
+		echo; zplug install
+	fi
+fi
+
+# Then, source plugins and add commands to $PATH
+zplug load
+
+# TODO
+# Using zplug instead to manage plugins will remove after trial
 # Zsh syntax highlighting should be sourced at end of file
-export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=$HOME/.zsh/zsh-syntax-highlighting/highlighters
-source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=$HOME/.zsh/zsh-syntax-highlighting/highlighters
+# source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Setup history search on keypresses
 # https://github.com/zsh-users/zsh-history-substring-search
-source $HOME/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
+# source $HOME/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
 # TODO
 # This is working a bit differently so need to see if this is nice or not
+# bindkey -M vicmd "$terminfo[kcuu1]" history-substring-search-up
+# bindkey -M vicmd "$terminfo[kcud1]" history-substring-search-down
 # bindkey -M vicmd '^[[A' history-substring-search-up
 # bindkey -M vicmd '^[[B' history-substring-search-down
-bindkey "$terminfo[kcuu1]" history-substring-search-up
-bindkey "$terminfo[kcud1]" history-substring-search-down
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
