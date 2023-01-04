@@ -25,6 +25,9 @@ source ~/.zshpriv
 # Aliases
 source ~/.zsh_aliases
 
+# Functions
+source ~/.zsh_functions
+
 # https://github.com/ohmyzsh/ohmyzsh/issues/3356#issuecomment-94344463
 # If you get `command not found: compdef` error you need to regenerate
 # completions

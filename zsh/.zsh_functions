@@ -42,8 +42,8 @@ function define {
 }
 
 function find_replace {
-	local find=$1
-	local replace=$1
+  local find=$1
+  local replace=$1
 
-	vim "+bufdo %s/${find}/${replace}/gc | up" '+q' -- $(rg $find -l) >2/dev/null
+  vim "+bufdo %s/${find}/${replace}/gc | up" '+q' -- $(rg $find -l) >2/dev/null
 }
