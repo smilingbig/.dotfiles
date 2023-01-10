@@ -41,9 +41,13 @@ function define {
  dict -d gcide $1 | cat
 }
 
+# Find and replace in vim
+# TODO
+# I'd like to pipe the errors of this to /dev/null to silence them, but had some issues
+# https://askubuntu.com/questions/589647/search-and-replace-from-terminal-but-with-confirmation 
 function find_replace {
   local find=$1
-  local replace=$1
+  local replace=$2
 
-  vim "+bufdo %s/${find}/${replace}/gc | up" '+q' -- $(rg $find -l) >2/dev/null
+  nvim "+bufdo %s/${find}/${replace}/gc | up" '+q' -- $(\rg $find -l)
 }

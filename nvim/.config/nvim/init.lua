@@ -290,6 +290,8 @@ vim.keymap.set('n', '<leader>sd', function()
   require('telescope.builtin').diagnostics(require('telescope.themes').get_ivy {})
 end, { desc = '[S]earch [D]iagnostics' })
 
+vim.keymap.set('n', 'J', 'mzJ`z', { desc = '[J], but without jumping to end of line' })
+
 -- Movement remaps
 -- Stole these from ThePrimeagen
 -- https://www.youtube.com/watch?v=w7i4amO_zaE&t=4s

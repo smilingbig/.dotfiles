@@ -7,9 +7,9 @@ prompt pure
 export PURE_PROMPT_VICMD_SYMBOL="_"
 export PURE_PROMPT_SYMBOL="$"
 
-# Volta setup for path
-export VOLTA_HOME=$HOME/.volta
-export PATH="$VOLTA_HOME/bin:$PATH"
+# PNPM setup
+export PNPM_HOME="$HOME/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
 # TODO
 # I need a way to deal with this on non macos distro
 # Source brew
@@ -86,6 +86,9 @@ compinit
 # Case insensitive completion
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
+# Tab highlighting
+zstyle ':completion:*' menu select
+
 # Zplug
 # https://github.com/zplug/zplug
 # TODO
@@ -125,3 +128,8 @@ zplug load
 # bindkey -M vicmd '^[[B' history-substring-search-down
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
+
+# pnpm
+export PNPM_HOME="/Users/RCargill/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end
