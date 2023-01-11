@@ -10,6 +10,7 @@ export PURE_PROMPT_SYMBOL="$"
 # PNPM setup
 export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
+
 # TODO
 # I need a way to deal with this on non macos distro
 # Source brew
@@ -18,6 +19,9 @@ export PATH="/opt/homebrew/bin:$PATH"
 # Setting up default editor 
 export EDITOR="nvim"
 export GIT_EDITOR=$EDITOR
+
+# Dracula theme for bat
+export BAT_THEME="Dracula"
 
 # Keys and things
 source ~/.zshpriv
@@ -129,7 +133,3 @@ zplug load
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
-# pnpm
-export PNPM_HOME="/Users/RCargill/Library/pnpm"
-export PATH="$PNPM_HOME:$PATH"
-# pnpm end
